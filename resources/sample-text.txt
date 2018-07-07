@@ -1,0 +1,217 @@
+
+
+Groups
+
+
+POST REPLY	
+2 of 99+ (99+)  
+
+
+
+
+My groups
+Home
+My discussions
+Starred
+
+
+Favorites
+Click on a group’s star icon to add it to your favorites
+
+
+Recently viewed
+
+
+Recent searches
+level configuration issue related to Matlab (in support)
+mummy (in support)
+Privacy - Terms of Service
+User Support ›
+Question about NEX-GDDP dataset
+6 posts by 3 authors  
+
+
+
+Daneshvar, Fariborz	
+
+May 25
+
+
+Hi,
+
+I have the following questions about NEX-GDDP dataset, available on the OPeNDAP Dataset Access Form:
+
+
+- Regarding the time: this dataset is based on 365 day calendar. What would happen for leap years?
+
+- Regarding the longitude: it ranges from 0 to 360. How does it match with longitudes ranging from -180 to +180?
+
+
+Thanks for your time,
+
+Fariborz
+---
+Fariborz Daneshvar, Ph.D.
+Post-Doctoral Research Associate
+Department of Agricultural and Biological Engineering
+Purdue University
+West Lafayette, IN 47907
+Click here to Reply
+
+
+
+Nathan Potter	
+
+May 25
+
+Other recipients: fdan...@purdue.edu, n...@opendap.org
+
+Hi Fariboz, 
+
+In order to assist you I need the URL of the OPeNDAP Dataset Access Form you are viewing. 
+
+
+Thanks, 
+
+Nathan 
+- show quoted text -
+= = = 
+Nathan Potter                        ndp at opendap.org 
+OPeNDAP, Inc.                        +1.541.231.3317 
+
+ 
+
+
+Daneshvar, Fariborz	
+
+May 29
+
+Other recipients: n...@opendap.org
+
+Hi Nathan,
+Here is the URL of a dateset that I mentioned before:
+https://dataserver.nccs.nasa.gov/thredds/dodsC/bypass/NEX-GDDP/bcsd/rcp85/r1i1p1/pr/inmcm4.ncml.html
+
+Thanks for your help.
+
+
+Fariborz 
+---
+Fariborz Daneshvar, Ph.D.
+Post-Doctoral Research Associate
+Department of Agricultural and Biological Engineering
+Purdue University
+West Lafayette, IN 47907
+________________________________________
+From: Nathan Potter <n...@opendap.org>
+Sent: Friday, May 25, 2018 1:13 PM
+To: Daneshvar, Fariborz
+Cc: Nathan Potter; sup...@opendap.org
+Subject: Re: [support] Question about NEX-GDDP dataset
+
+- show quoted text -
+ 
+
+
+Nathan Potter	
+
+May 29
+
+Other recipients: fdan...@purdue.edu, rama....@nasa.gov, bri...@climateanalyticsgroup.org, n...@opendap.org
+
+
+Hi Fairboz, 
+
+
+The dataset metadata response: 
+
+    https://dataserver.nccs.nasa.gov/thredds/dodsC/bypass/NEX-GDDP/bcsd/rcp85/r1i1p1/pr/inmcm4.ncml.das 
+
+Reveals some of what you asked about: 
+
+
+> - Regarding the time: this dataset is based on 365 day calendar. What would happen for leap years? 
+
+This data set appears to be the output of the BCSD model: 
+
+>  String references "BCSD method: Thrasher et al., 2012, Hydrol. Earth Syst. Sci.,16, 3309-3314. 
+> Ref period obs: latest version of the Princeton Global Meteorological Forcings (http://hydrology.princeton.edu/data.php), 
+> based on Sheffield et al., 2006, J. Climate, 19 (13), 3088-3111."; 
+
+And it is possible that there are simply no leap years. Climate/Forecast models sometimes operate on a 365 day 
+year to simplify the model computation. 
+
+The metadata also contain contact information for two principles that would likely know the answer: 
+
+>   String contact "Dr. Rama Nemani: rama....@nasa.gov, Dr. Bridget Thrasher: bri...@climateanalyticsgroup.org"; 
+
+
+And I am cc’ing them in the hopes that they will chime in on your calendar question. 
+
+
+
+> - Regarding the longitude: it ranges from 0 to 360. How does it match with longitudes ranging from -180 to +180? 
+> 
+
+
+The longitude metadata: 
+
+>         String standard_name "longitude"; 
+>         String long_name "longitude"; 
+>         String units "degrees_east"; 
+>         String axis "X"; 
+>         Int32 _ChunkSizes 1440; 
+> 
+Indicate that the units are “degrees_east”. 
+
+So this data set starts at 0 deg (Greenwich Line) and goes east from there. 
+
+Datasets whose longitude spans -180 to 180 with units “degrees_east” start at the International Date Line (180 degrees West of the Greenwich Line) 
+
+
+
+Sincerely, 
+
+Nathan 
+- show quoted text -
+ 
+
+
+Bridget Thrasher	
+
+May 29
+
+Other recipients: n...@opendap.org, fdan...@purdue.edu, rama....@nasa.gov
+
+Thanks, Nathan. I responded to Fariborz earlier today...
+
+Best,
+Bridget
+- show quoted text -
+ 
+
+
+Daneshvar, Fariborz	
+
+May 29
+
+Other recipients: n...@opendap.org, bri...@climateanalyticsgroup.org
+
+Hi Nathan and Bridget,
+Thanks for your responses. I really appreciate it.
+
+Best,
+
+
+Fariborz
+---
+Fariborz Daneshvar, Ph.D.
+Post-Doctoral Research Associate
+Department of Agricultural and Biological Engineering
+Purdue University
+West Lafayette, IN 47907
+________________________________________
+From: Nathan Potter <n...@opendap.org>
+Sent: Tuesday, May 29, 2018 6:38 PM
+To: Daneshvar, Fariborz; rama....@nasa.gov; bri...@climateanalyticsgroup.org
+- show quoted text -
