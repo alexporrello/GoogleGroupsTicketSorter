@@ -110,7 +110,7 @@ public class SupportPageListGUI extends JMPanel {
 			
 			addActionListner(e-> {
 				content.removeAll();
-				
+
 				content.add(new SupportPageGUI(new SupportPage(url)), BorderLayout.CENTER);
 				content.revalidate();
 				content.repaint();

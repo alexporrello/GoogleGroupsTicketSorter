@@ -17,7 +17,7 @@ import org.xml.sax.SAXException;
 public class SupportPage extends ArrayList<Message> {
 	private static final long serialVersionUID = 1522435904734482515L;
 
-	public static final File SUPPORT_PAGES = new File(System.getProperty("user.home") + "\\scraper.log\\support_tickets");
+	public static final File SUPPORT_PAGES = new File(System.getProperty("user.home") + "\\support_pages");
 
 	private String title;
 	private String url;
@@ -33,14 +33,14 @@ public class SupportPage extends ArrayList<Message> {
 	 */
 	public SupportPage(File url) {
 		try {
-			readXML();
+			readXML(url.getAbsolutePath());
 		} catch (SAXException | IOException | ParserConfigurationException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void readXML() throws SAXException, IOException, ParserConfigurationException {
-		File fXmlFile = new File("D:\\Downloads\\file.xml");
+	private void readXML(String url) throws SAXException, IOException, ParserConfigurationException {
+		File fXmlFile = new File(url);
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		Document doc = dBuilder.parse(fXmlFile);
