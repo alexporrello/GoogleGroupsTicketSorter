@@ -25,7 +25,7 @@ public class FileCabinet extends HashMap<String, Drawer>{
 		
 		
 		
-		public class Folder extends ArrayList<Ticket> {
+		public class Folder extends ArrayList<SupportPage> {
 			private static final long serialVersionUID = -4049054814794712786L;
 
 			

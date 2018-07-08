@@ -11,7 +11,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import gui.TicketListGUI;
+import gui.SupportPageListGUI;
 import jm.JMPanel;
 import jm.JMScrollPane;
 
@@ -27,7 +27,7 @@ public class Runner extends JFrame {
 			JComponent content = new JMPanel();
 			content.setLayout(new BorderLayout());
 			
-			JScrollPane scroll = new JMScrollPane(new TicketListGUI(content));
+			JScrollPane scroll = new JMScrollPane(new SupportPageListGUI(content));
 			scroll.setPreferredSize(new Dimension(300, 300));
 			
 			add(content, BorderLayout.CENTER);
