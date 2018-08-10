@@ -5,7 +5,7 @@ import java.awt.event.FocusEvent;
 
 import javax.swing.SwingConstants;
 
-public class JMLabel extends JMTextField {
+public class JMLabel extends JMSimpleTextField {
 	private static final long serialVersionUID = -2299250539917011267L;
 
 	public JMLabel(String s) {

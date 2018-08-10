@@ -32,7 +32,7 @@ public class SupportPageWriter {
 		supportPageInfo.setAttribute("id", id++ + "");
 		addElement(doc, supportPageInfo, "url", page.getURL());
 		addElement(doc, supportPageInfo, "name", page.getName());
-		addElement(doc, supportPageInfo, "tags", page.getTags());
+		addElement(doc, supportPageInfo, "tags", page.getTagsAsString());
 		
 		for(Message m : page) {
 			Element post = doc.createElement("Post");
@@ -44,7 +44,7 @@ public class SupportPageWriter {
 			addElement(doc, post, "body", m.getBody());
 		}
 
-		return writeToFile(SupportPage.SUPPORT_PAGES + "\\" + page.getName(), doc);
+		return writeToFile(page.getDirectory(), doc);
 	}
 
 	private static void addElement(Document doc, Element parent, String element, String value) {

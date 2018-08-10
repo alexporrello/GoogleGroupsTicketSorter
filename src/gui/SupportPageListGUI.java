@@ -16,6 +16,7 @@ import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import javax.swing.JComponent;
 
@@ -26,48 +27,52 @@ import reader.SupportPage;
 public class SupportPageListGUI extends JMPanel {
 	private static final long serialVersionUID = -3677343706797068487L;
 
-	ArrayList<TicketButton> buttons = new ArrayList<TicketButton>();
+	public HashSet<String> allTags = new HashSet<String>();
+	
+	private ArrayList<SupportPageButton> buttons = new ArrayList<SupportPageButton>();
 
-	JComponent content;
+	private JComponent content;
 
 	public SupportPageListGUI(JComponent content) {
 		this.content = content;
-		
+
 		setLayout(new GridBagLayout());
 
+		allTags.add("Resolved");
+		allTags.add("Unresolved");
+		
 		addAllTickets();
-		watchService();
+		startWatchService();
 	}
 
+	/** Loads all tickets from the default support pages folder **/
 	public void addAllTickets() {
 		buttons.clear();
-		
+
 		for (File f : SupportPage.SUPPORT_PAGES.listFiles()) {
-			buttons.add(new TicketButton(f));
+			buttons.add(new SupportPageButton(f));
 		}
 
 		refreshTicketList();
 	}
-	
+
+	/** Refresh the list view that the user has of the tickets **/
 	public void refreshTicketList() {
 		this.removeAll();
 
 		int x = 0;
 
-		for(TicketButton tl : buttons) {
-			add(tl, new GridBagConstraints(0, x, 1, 1, 1.0, 0.0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 0, 5), 0, 0));
-			x++;
+		for(SupportPageButton tl : buttons) {
+			add(tl, new GridBagConstraints(0, x++, 1, 1, 1.0, 0.0, 
+					GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 0, 5), 0, 0));
 		}
 
 		revalidate();
 		repaint();
 	}
 
-	/**
-	 * Watches the Desktop Publisher Assistant for changes and updates the log
-	 * if any occur.
-	 */
-	private void watchService() {
+	/** Watches the file list for changes and updates the log if any occur. **/
+	private void startWatchService() {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -80,11 +85,8 @@ public class SupportPageListGUI extends JMPanel {
 					for(;;) {
 						WatchKey key = watcher.take();
 						for (WatchEvent<?> event : key.pollEvents()) {
-							if (event.kind() == ENTRY_CREATE || event.kind() == ENTRY_DELETE || event.kind() == ENTRY_MODIFY) {
-								//TODO Do stuff when the file is modified.
-								
+							if (event.kind() == ENTRY_CREATE || event.kind() == ENTRY_DELETE || event.kind() == ENTRY_MODIFY) {								
 								addAllTickets();
-								
 								continue;
 							}
 						}
@@ -97,21 +99,24 @@ public class SupportPageListGUI extends JMPanel {
 			}
 		}).start();
 	}
-	
-	public class TicketButton extends JMButton {
+
+	/**
+	 * Currently just a JMButton with an action listener. Possibly will change UI.
+	 * @author Alexander Porrello
+	 */
+	public class SupportPageButton extends JMButton {
 		private static final long serialVersionUID = 5543833053519594661L;
 
-		File url;
+		public SupportPageButton(File directory) {
+			super(directory.getName());
 
-		public TicketButton(File url) {
-			super(url.getName());
-			
-			this.url = url;
-			
 			addActionListner(e-> {
 				content.removeAll();
 
-				content.add(new SupportPageGUI(new SupportPage(url)), BorderLayout.CENTER);
+				content.add(new SupportPageGUI(
+						new SupportPage(directory),
+						allTags.toArray(new String[allTags.size()])), BorderLayout.CENTER);
+
 				content.revalidate();
 				content.repaint();
 			});

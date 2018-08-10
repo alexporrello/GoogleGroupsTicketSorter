@@ -8,6 +8,7 @@ import java.util.HashSet;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -87,7 +88,9 @@ public class SupportPage extends ArrayList<Message> {
 
 				try {
 					for(String s : element.getElementsByTagName("tags").item(0).getTextContent().split(",")) {
-						this.tags.add(s);
+						if(s.length() > 0) {
+							this.tags.add(s);
+						}
 					}
 				} catch(NullPointerException e) {
 					System.err.print("The support page '" + name + "' has no tags.\n");
@@ -113,8 +116,13 @@ public class SupportPage extends ArrayList<Message> {
 	}
 
 	/** Adds a tag to the current support page **/
-	public void addTag(String tag) {
-		tags.add(tag.toUpperCase().trim());
+	public Boolean addTag(String tag) {
+		return tags.add(tag.trim());
+	}
+
+	/** Removes a tag from the current support page **/
+	public Boolean removeTag(String tag) {
+		return tags.remove(tag);
 	}
 
 	/** Returns this support page's name. **/
@@ -132,14 +140,32 @@ public class SupportPage extends ArrayList<Message> {
 		return directory;
 	}
 
-	/** Returns this support page's tags, separated by commas. **/
-	public String getTags() {
+	/** Returns this support page's tags. **/
+	public HashSet<String> getTags() {
+		return tags;
+	}
+
+	/** Returns this support page's tags as a string, separated by commas. **/
+	public String getTagsAsString() {
 		String toReturn = "";
 
 		for(String s : tags) {
 			toReturn = toReturn + "," + s;
 		}
 
-		return toReturn.substring(1, toReturn.length());
+		try {
+			return toReturn.substring(1, toReturn.length());
+		} catch(StringIndexOutOfBoundsException e) {
+			return "";
+		}
+	}
+
+	/** Saves updates to a support page **/
+	public void save() {
+		try {
+			SupportPageWriter.write(this);
+		} catch (ParserConfigurationException | TransformerException e1) {
+			e1.printStackTrace();
+		}
 	}
 }

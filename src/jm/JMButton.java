@@ -51,7 +51,7 @@ public class JMButton extends JLabel {
 
 		setupJMButton();
 	}
-
+	
 	/**
 	 * @param style may be one of the following:
 	 * <ul>
@@ -242,6 +242,7 @@ public class JMButton extends JLabel {
 		}
 		
 		fadeTimer = new Timer(fadeSpeed, new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent evt) {
 				colorFader(background, fadeToButton, border, fadeToBorder);
 				repaint();

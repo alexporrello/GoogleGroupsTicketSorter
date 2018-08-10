@@ -2,11 +2,16 @@ package main;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -18,31 +23,60 @@ import jm.JMScrollPane;
 public class Runner extends JFrame {
 	private static final long serialVersionUID = 5514779712176296826L;
 
+	SupportPageListGUI supportPageList;
+
 	public Runner() {
 		SwingUtilities.invokeLater(() -> {
 			setLookAndFeel();
 			setJMenuBar(new MenuBar());
 			createJFrame();
-			
+
 			JComponent content = new JMPanel();
 			content.setLayout(new BorderLayout());
-			
-			JScrollPane scroll = new JMScrollPane(new SupportPageListGUI(content));
+
+			supportPageList = new SupportPageListGUI(content);
+			JScrollPane scroll = new JMScrollPane(supportPageList);
 			scroll.setPreferredSize(new Dimension(300, 300));
-			
+
 			add(content, BorderLayout.CENTER);
 			add(scroll, BorderLayout.WEST);
-			
+
 			setVisible(true);
 		});
 	}
 
 	public class MenuBar extends JMenuBar {
 		private static final long serialVersionUID = -5585662550064738484L;
-		
-		
+
+		public MenuBar() {
+			add(new File());
+		}
+
+		public class File extends JMenu {
+			private static final long serialVersionUID = 7464767676566339022L;
+
+			public File() {
+				super("File");
+
+				add(newCategory());			
+			}
+
+			private JMenuItem newCategory() {
+				JMenuItem toReturn = new JMenuItem("Create New Tag");
+
+				toReturn.addActionListener(e -> {
+					//TODO Create new tag
+				});
+				toReturn.setAccelerator (
+						KeyStroke.getKeyStroke (
+								KeyEvent.VK_N,
+								Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+
+				return toReturn;
+			}
+		}
 	}
-	
+
 	public void createJFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Google Groups Ticket Sorter");
