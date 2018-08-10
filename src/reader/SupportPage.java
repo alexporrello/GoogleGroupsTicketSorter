@@ -3,6 +3,7 @@ package reader;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -14,33 +15,60 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+/**
+ * An entire support page, including...
+ * <ul>
+ * 	<li>The support page's name.</li>
+ * 	<li>The support page's web url.</li>
+ * 	<li>The support page's local directory.</li>
+ * 	<li>The support page's tags.</li>
+ * 	<li>All of the support page's messages.</li>
+ * </ul>
+ * 
+ * @author Alexander Porrello
+ */
 public class SupportPage extends ArrayList<Message> {
 	private static final long serialVersionUID = 1522435904734482515L;
 
 	public static final File SUPPORT_PAGES = new File(System.getProperty("user.home") + "\\support_pages");
 
-	private String title;
+	/** Users can add tags to a support page to help sort it. **/
+	private HashSet<String> tags = new HashSet<String>();
+
+	/** The support page's name **/
+	private String name;
+
+	/** The support page's web URL **/
 	private String url;
 
-	public SupportPage() {
-		// For initiating an empty ticket.
-	}
+	/** The support page's directory on the local machine **/
+	private String directory;
+
+	/** Initialize an empty support page. **/
+	public SupportPage() { }
 
 	/**
-	 * Reads in ticket files that have been saved to the local machine
+	 * Reads in a support page that has been scraped to the local machine
 	 * by GoogleGroupsScraper.
-	 * @param url the path of the ticket file to be parsed.
+	 * @param directory The support page's directory on the local machine.
 	 */
-	public SupportPage(File url) {
+	public SupportPage(File directory) {
+		this.directory = directory.getAbsolutePath();
+
 		try {
-			readXML(url.getAbsolutePath());
+			readXML(directory.getAbsolutePath());
 		} catch (SAXException | IOException | ParserConfigurationException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void readXML(String url) throws SAXException, IOException, ParserConfigurationException {
-		File fXmlFile = new File(url);
+	/**
+	 * Reads a support page that has been scraped to the local machine 
+	 * by GoogleGroupsScraper.
+	 * @param directory The directory of the local file to be loaded.
+	 */
+	private void readXML(String directory) throws SAXException, IOException, ParserConfigurationException {
+		File fXmlFile = new File(directory);
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		Document doc = dBuilder.parse(fXmlFile);
@@ -55,7 +83,15 @@ public class SupportPage extends ArrayList<Message> {
 				Element element = (Element) node;
 
 				this.url = element.getElementsByTagName("url").item(0).getTextContent();
-				this.title = element.getElementsByTagName("name").item(0).getTextContent();
+				this.name = element.getElementsByTagName("name").item(0).getTextContent();
+
+				try {
+					for(String s : element.getElementsByTagName("tags").item(0).getTextContent().split(",")) {
+						this.tags.add(s);
+					}
+				} catch(NullPointerException e) {
+					System.err.print("The support page '" + name + "' has no tags.\n");
+				}
 
 				break;
 			}
@@ -76,22 +112,34 @@ public class SupportPage extends ArrayList<Message> {
 		}
 	}
 
-	public String getTitle() {
-		return title;
+	/** Adds a tag to the current support page **/
+	public void addTag(String tag) {
+		tags.add(tag.toUpperCase().trim());
 	}
 
+	/** Returns this support page's name. **/
+	public String getName() {
+		return name;
+	}
+
+	/** Returns this support page's url. **/
 	public String getURL() {
 		return url;
 	}
 
-	@Override
-	public String toString() {
-		String toReturn = title + "\n" + url + "\n";
+	/** Returns this support page's directory. **/
+	public String getDirectory() {
+		return directory;
+	}
 
-		for(Message m : this) {
-			toReturn = toReturn + "\n===================\n" + m.poster + "\n" + m.body;
+	/** Returns this support page's tags, separated by commas. **/
+	public String getTags() {
+		String toReturn = "";
+
+		for(String s : tags) {
+			toReturn = toReturn + "," + s;
 		}
 
-		return toReturn;
+		return toReturn.substring(1, toReturn.length());
 	}
 }

@@ -7,9 +7,11 @@ import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.io.File;
 
 import javax.swing.BorderFactory;
 
+import jm.JMButton;
 import jm.JMColor;
 import jm.JMLabel;
 import jm.JMPanel;
@@ -43,7 +45,7 @@ public class SupportPageGUI extends JMPanel {
 		JMScrollPane jms = new JMScrollPane(tickets);
 		add(jms, BorderLayout.CENTER);
 
-		JMLabel label = new JMLabel(ticket.getTitle()) {
+		JMLabel label = new JMLabel(ticket.getName()) {
 			private static final long serialVersionUID = -8300740866901116067L;
 
 			@Override
@@ -58,5 +60,38 @@ public class SupportPageGUI extends JMPanel {
 		label.setBackground(JMColor.DEFAULT_BACKGROUND);
 		label.setOpaque(true);
 		add(label, BorderLayout.NORTH);
+		
+		add(new ControlPanel(), BorderLayout.SOUTH);
+	}
+	
+	public void clearAfterDelete() {
+		removeAll();
+		revalidate();
+		repaint();
+	}
+	
+	private class ControlPanel extends JMPanel {
+		private static final long serialVersionUID = -3338387457467355460L;
+		
+		JMButton delete = new JMButton("Delete");
+		
+		public ControlPanel() {
+			add(delete);
+			setBackground(Color.WHITE);
+			
+			delete.addActionListner(e -> {
+				new File(ticket.getDirectory()).delete();
+				clearAfterDelete();
+			});
+		}
+		
+		@Override
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			
+			g.setColor(JMColor.DEFAULT_BORDER_COLOR);
+			g.drawLine(0, 0, getWidth(), 0);
+
+		}
 	}
 }
