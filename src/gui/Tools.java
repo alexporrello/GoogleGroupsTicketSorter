@@ -57,12 +57,12 @@ public class Tools {
 	public static ArrayList<Image> imageIcon() {
 		ArrayList<Image> icons = new ArrayList<Image>();
 
-		icons.add(loadImage("NI-Icon_128x128.png"));
-		icons.add(loadImage("NI-Icon_64x64.png"));
-		icons.add(loadImage("NI-Icon_48x48.png"));
-		icons.add(loadImage("NI-Icon_32x32.png"));
-		icons.add(loadImage("NI-Icon_24x24.png"));
-		icons.add(loadImage("NI-Icon_16x16.png"));
+		icons.add(loadImage("128x128.png"));
+		icons.add(loadImage("64x64.png"));
+		icons.add(loadImage("48x48.png"));
+		icons.add(loadImage("32x32.png"));
+		icons.add(loadImage("24x24.png"));
+		icons.add(loadImage("16x16.png"));
 
 		return icons;
 	}

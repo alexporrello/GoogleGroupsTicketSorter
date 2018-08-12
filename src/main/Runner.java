@@ -19,6 +19,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import gui.AddTagDialog;
 import gui.SupportPageListGUI;
+import gui.Tools;
 import jm.JMPanel;
 import jm.JMScrollPane;
 
@@ -32,7 +33,8 @@ public class Runner extends JFrame {
 			setLookAndFeel();
 			setJMenuBar(new MenuBar());
 			createJFrame();
-
+			setIconImages(Tools.imageIcon());
+			
 			JComponent content = new JMPanel();
 			content.setLayout(new BorderLayout());
 
@@ -48,8 +50,11 @@ public class Runner extends JFrame {
 		});
 	}
 
-	public Point getPosn() {
-		return new Point(this.getX(), this.getY());
+	public Point getPosn(int dialogWidth, int dialogHeight) {
+		int xPosn = (int) ((double) (this.getWidth()-dialogWidth)/2);
+		int yPosn = (int) ((double) (this.getHeight()-dialogHeight)/2);
+		
+		return new Point(this.getX()+xPosn, this.getY()+yPosn);
 	}
 	
 	public class MenuBar extends JMenuBar {
@@ -65,14 +70,14 @@ public class Runner extends JFrame {
 			public File() {
 				super("File");
 
-				add(newCategory());			
+				add(newTag());			
 			}
 
-			private JMenuItem newCategory() {
+			private JMenuItem newTag() {
 				JMenuItem toReturn = new JMenuItem("Create New Tag");
 
 				toReturn.addActionListener(e -> {
-					new AddTagDialog(getPosn().x, getPosn().y);
+					new AddTagDialog(getPosn(250, 75).x, getPosn(250, 75).y);
 				});
 				toReturn.setAccelerator (
 						KeyStroke.getKeyStroke (

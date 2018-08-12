@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashSet;
 
 import reader.SupportPage;
 
@@ -61,14 +62,15 @@ public class Tags {
 	}
 	
 	public static void writeNewTag(String newTag) throws IOException {		
-		String toWrite = "";
+		HashSet<String> allTags = new HashSet<String>();
+		for(String tag : createOrLoadAllTags().split(",")) { allTags.add(tag); }
+		allTags.add(newTag);
 		
-		for(String tag : createOrLoadAllTags().split(",")) {
-			toWrite = toWrite + tag + "\n";
-		}
+		String toWrite = "";
+		for(String s : allTags) { toWrite = s + "\n" + toWrite; }
 		
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(Tags.TAG_FILE))) {
-			bw.write(toWrite + newTag);
+			bw.write(toWrite.substring(0, toWrite.length()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
