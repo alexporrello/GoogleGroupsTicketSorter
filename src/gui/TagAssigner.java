@@ -14,15 +14,17 @@ import jm.JMColor;
 import jm.JMPanel;
 import reader.SupportPage;
 
-public class TagArea extends JMPanel {
+public class TagAssigner extends JMPanel {
 	private static final long serialVersionUID = 7773524342483447123L;
 	
-	public TagArea() {
+	
+	
+	public TagAssigner() {
 		setLayout(new GridBagLayout());
 		setOpaque(false);
 	}
 	
-	public TagArea(SupportPage supportPage) {
+	public TagAssigner(SupportPage supportPage) {
 		setLayout(new GridBagLayout());
 		setOpaque(false);
 		repopulate(supportPage);	

@@ -2,6 +2,7 @@ package main;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 
@@ -16,6 +17,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import gui.AddTagDialog;
 import gui.SupportPageListGUI;
 import jm.JMPanel;
 import jm.JMScrollPane;
@@ -37,14 +39,19 @@ public class Runner extends JFrame {
 			supportPageList = new SupportPageListGUI(content);
 			JScrollPane scroll = new JMScrollPane(supportPageList);
 			scroll.setPreferredSize(new Dimension(300, 300));
-
+			
 			add(content, BorderLayout.CENTER);
 			add(scroll, BorderLayout.WEST);
 
+			setLocationByPlatform(true);
 			setVisible(true);
 		});
 	}
 
+	public Point getPosn() {
+		return new Point(this.getX(), this.getY());
+	}
+	
 	public class MenuBar extends JMenuBar {
 		private static final long serialVersionUID = -5585662550064738484L;
 
@@ -65,7 +72,7 @@ public class Runner extends JFrame {
 				JMenuItem toReturn = new JMenuItem("Create New Tag");
 
 				toReturn.addActionListener(e -> {
-					//TODO Create new tag
+					new AddTagDialog(getPosn().x, getPosn().y);
 				});
 				toReturn.setAccelerator (
 						KeyStroke.getKeyStroke (

@@ -16,7 +16,6 @@ import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 import javax.swing.JComponent;
 
@@ -26,8 +25,6 @@ import reader.SupportPage;
 
 public class SupportPageListGUI extends JMPanel {
 	private static final long serialVersionUID = -3677343706797068487L;
-
-	public HashSet<String> allTags = new HashSet<String>();
 	
 	private ArrayList<SupportPageButton> buttons = new ArrayList<SupportPageButton>();
 
@@ -37,9 +34,6 @@ public class SupportPageListGUI extends JMPanel {
 		this.content = content;
 
 		setLayout(new GridBagLayout());
-
-		allTags.add("Resolved");
-		allTags.add("Unresolved");
 		
 		addAllTickets();
 		startWatchService();
@@ -113,9 +107,7 @@ public class SupportPageListGUI extends JMPanel {
 			addActionListner(e-> {
 				content.removeAll();
 
-				content.add(new SupportPageGUI(
-						new SupportPage(directory),
-						allTags.toArray(new String[allTags.size()])), BorderLayout.CENTER);
+				content.add(new SupportPageGUI(new SupportPage(directory)), BorderLayout.CENTER);
 
 				content.revalidate();
 				content.repaint();
